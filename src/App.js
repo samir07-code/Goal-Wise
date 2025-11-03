@@ -104,6 +104,7 @@ const GoalWise = () => {
   };
 
   // Function to link new account
+  /*
   const handleLinkAccount = () => {
     if (linkAccountData.name && linkAccountData.balance) {
       const account = {
@@ -119,6 +120,7 @@ const GoalWise = () => {
       setShowLinkAccountModal(false);
     }
   };
+*/
 
   // Function to cancel subscription
   const handleCancelSubscription = (subscriptionId) => {
@@ -126,6 +128,7 @@ const GoalWise = () => {
   };
 
   // Function to add new investment
+  /*
   const handleAddInvestment = () => {
     if (newInvestment.name && newInvestment.symbol && newInvestment.amount && newInvestment.shares) {
       const investment = {
@@ -145,6 +148,7 @@ const GoalWise = () => {
       setShowAddInvestmentModal(false);
     }
   };
+  */
 
   // Calculate total investment value and gains
   const getTotalInvestmentValue = () => {
@@ -408,7 +412,26 @@ const GoalWise = () => {
     </div>
   );
 
-  const LinkAccountModal = () => (
+  const LinkAccountModal = () => {
+    const[linkAccountData, setLinkAccountData] = useState({ name: '', type: 'bank', balance: '' });
+    
+    const handleLinkAccount = () => {
+    if (linkAccountData.name && linkAccountData.balance) {
+      const account = {
+        id: Math.max(...accounts.map(a => a.id)) + 1,
+        name: linkAccountData.name,
+        type: linkAccountData.type,
+        balance: parseFloat(linkAccountData.balance),
+        icon: linkAccountData.type === 'bank' ? 'Building' : linkAccountData.type === 'credit' ? 'CreditCard' : 'Wallet',
+        color: linkAccountData.type === 'bank' ? 'bg-blue-500' : linkAccountData.type === 'credit' ? 'bg-orange-500' : 'bg-indigo-500'
+      };
+      setAccounts([...accounts, account]);
+      setLinkAccountData({ name: '', type: 'bank', balance: '' });
+      setShowLinkAccountModal(false);
+    }
+  };
+    
+    return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
@@ -473,6 +496,7 @@ const GoalWise = () => {
       </div>
     </div>
   );
+}
 
   const EditGoalModal = () => (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -615,7 +639,30 @@ const GoalWise = () => {
     </div>
   );
 
-  const AddInvestmentModal = () => (
+  const AddInvestmentModal = () => { 
+    const [newInvestment, setNewInvestment] = useState({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
+
+    const handleAddInvestment = () => {
+    if (newInvestment.name && newInvestment.symbol && newInvestment.amount && newInvestment.shares) {
+      const investment = {
+        id: Math.max(...investments.map(i => i.id)) + 1,
+        name: newInvestment.name,
+        symbol: newInvestment.symbol,
+        type: newInvestment.type,
+        shares: parseFloat(newInvestment.shares),
+        currentPrice: parseFloat(newInvestment.currentPrice || newInvestment.amount / parseFloat(newInvestment.shares)),
+        purchasePrice: parseFloat(newInvestment.amount) / parseFloat(newInvestment.shares),
+        amount: parseFloat(newInvestment.amount),
+        change: 0,
+        changePercent: 0
+      };
+      setInvestments([...investments, investment]);
+      setNewInvestment({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
+      setShowAddInvestmentModal(false);
+    }
+  };
+  
+    return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md shadow-2xl`}>
         <div className="flex justify-between items-center mb-6">
@@ -704,6 +751,7 @@ const GoalWise = () => {
       </div>
     </div>
   );
+  }
 
   const HomeScreen = () => (
     <div className="space-y-6 pb-24">
