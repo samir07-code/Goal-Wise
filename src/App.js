@@ -78,6 +78,7 @@ const GoalWise = () => {
   */
 
   // Function to add funds to goal
+  /*
   const handleAddFunds = () => {
     if (addFundsAmount && selectedGoal) {
       const amount = parseFloat(addFundsAmount);
@@ -90,6 +91,7 @@ const GoalWise = () => {
       setShowAddFundsModal(false);
     }
   };
+  */
 
   // Function to edit goal
   const handleEditGoal = () => {
@@ -363,7 +365,23 @@ const GoalWise = () => {
     );
   }
 
-  const AddFundsModal = () => (
+  const AddFundsModal = () => {
+    const [addFundsAmount, setAddFundsAmount] = useState('');
+    
+    const handleAddFunds = () => {
+    if (addFundsAmount && selectedGoal) {
+      const amount = parseFloat(addFundsAmount);
+      setGoals(goals.map(goal =>
+        goal.id === selectedGoal.id
+          ? { ...goal, current: Math.min(goal.current + amount, goal.target) }
+          : goal
+      ));
+      setAddFundsAmount('');
+      setShowAddFundsModal(false);
+    }
+  };
+
+    return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
@@ -411,6 +429,7 @@ const GoalWise = () => {
       </div>
     </div>
   );
+  }
 
   const LinkAccountModal = () => {
     const[linkAccountData, setLinkAccountData] = useState({ name: '', type: 'bank', balance: '' });
