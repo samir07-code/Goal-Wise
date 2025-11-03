@@ -94,6 +94,7 @@ const GoalWise = () => {
   */
 
   // Function to edit goal
+  /*
   const handleEditGoal = () => {
     if (selectedGoal) {
       setGoals(goals.map(goal =>
@@ -104,6 +105,7 @@ const GoalWise = () => {
       setShowEditGoalModal(false);
     }
   };
+*/
 
   // Function to link new account
   /*
@@ -367,7 +369,7 @@ const GoalWise = () => {
 
   const AddFundsModal = () => {
     const [addFundsAmount, setAddFundsAmount] = useState('');
-    
+
     const handleAddFunds = () => {
     if (addFundsAmount && selectedGoal) {
       const amount = parseFloat(addFundsAmount);
@@ -517,7 +519,27 @@ const GoalWise = () => {
   );
 }
 
-  const EditGoalModal = () => (
+  const EditGoalModal = () => {
+    const [newGoal, setNewGoal] = useState({
+      name: selectedGoal?.name || '',
+      target: selectedGoal?.target || '',
+      monthly: selectedGoal?.monthly || '',
+      icon: selectedGoal?.icon || '🎯',
+      color: selectedGoal?.color || 'from-blue-500 to-cyan-500'
+    });
+    
+    const handleEditGoal = () => {
+    if (selectedGoal) {
+      setGoals(goals.map(goal =>
+        goal.id === selectedGoal.id
+          ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
+          : goal
+      ));
+      setShowEditGoalModal(false);
+    }
+  };
+
+    return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md shadow-2xl`}>
         <div className="flex justify-between items-center mb-6">
@@ -614,6 +636,7 @@ const GoalWise = () => {
       </div>
     </div>
   );
+  }
 
   const ScenariosModal = () => (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
