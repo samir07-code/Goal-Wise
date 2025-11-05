@@ -58,6 +58,7 @@ const GoalWise = () => {
   ]);
 
   // Function to add new goal
+  /*
   const handleAddGoal = () => {
     if (newGoal.name && newGoal.target && newGoal.monthly) {
       const goal = {
@@ -74,13 +75,15 @@ const GoalWise = () => {
       setShowAddGoalModal(false);
     }
   };
+  */
 
   // Function to add funds to goal
+  /*
   const handleAddFunds = () => {
     if (addFundsAmount && selectedGoal) {
       const amount = parseFloat(addFundsAmount);
-      setGoals(goals.map(goal => 
-        goal.id === selectedGoal.id 
+      setGoals(goals.map(goal =>
+        goal.id === selectedGoal.id
           ? { ...goal, current: Math.min(goal.current + amount, goal.target) }
           : goal
       ));
@@ -88,20 +91,24 @@ const GoalWise = () => {
       setShowAddFundsModal(false);
     }
   };
+  */
 
   // Function to edit goal
+  /*
   const handleEditGoal = () => {
     if (selectedGoal) {
-      setGoals(goals.map(goal => 
-        goal.id === selectedGoal.id 
+      setGoals(goals.map(goal =>
+        goal.id === selectedGoal.id
           ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
           : goal
       ));
       setShowEditGoalModal(false);
     }
   };
+*/
 
   // Function to link new account
+  /*
   const handleLinkAccount = () => {
     if (linkAccountData.name && linkAccountData.balance) {
       const account = {
@@ -117,6 +124,7 @@ const GoalWise = () => {
       setShowLinkAccountModal(false);
     }
   };
+*/
 
   // Function to cancel subscription
   const handleCancelSubscription = (subscriptionId) => {
@@ -124,6 +132,7 @@ const GoalWise = () => {
   };
 
   // Function to add new investment
+  /*
   const handleAddInvestment = () => {
     if (newInvestment.name && newInvestment.symbol && newInvestment.amount && newInvestment.shares) {
       const investment = {
@@ -143,6 +152,7 @@ const GoalWise = () => {
       setShowAddInvestmentModal(false);
     }
   };
+  */
 
   // Calculate total investment value and gains
   const getTotalInvestmentValue = () => {
@@ -171,7 +181,7 @@ const GoalWise = () => {
         categories[category] += Math.abs(tx.amount);
       }
     });
-    
+
     const total = Object.values(categories).reduce((sum, amount) => sum + amount, 0);
     return Object.entries(categories).map(([category, amount]) => ({
       category,
@@ -197,7 +207,7 @@ const GoalWise = () => {
     const spendingAmounts = transactions
       .filter(tx => tx.amount < 0)
       .map(tx => Math.abs(tx.amount));
-    
+
     const ranges = [
       { range: '$0-50', count: 0, min: 0, max: 50 },
       { range: '$50-100', count: 0, min: 50, max: 100 },
@@ -232,105 +242,148 @@ const GoalWise = () => {
   };
 
   // Modal Components
-  const AddGoalModal = () => (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md shadow-2xl`}>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Add New Goal</h2>
-          <button onClick={() => setShowAddGoalModal(false)} className={`p-2 ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} rounded-full transition-all`}>
-            <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
-          </button>
-        </div>
-        
-        <div className="space-y-4">
-          <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name</label>
-            <input
-              type="text"
-              value={newGoal.name}
-              onChange={(e) => setNewGoal({...newGoal, name: e.target.value})}
-              className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="e.g., Emergency Fund"
-            />
+  const AddGoalModal = ({  }) => {
+    const [newGoal, setNewGoal] = useState({
+      name: '',
+      target: '',
+      monthly: '',
+      icon: '🎯',
+      color: 'from-blue-500 to-cyan-500'
+    });
+
+    const handleAddGoal = () => {
+      if (newGoal.name && newGoal.target && newGoal.monthly) {
+        const goal = {
+          id: Math.max(0, ...goals.map(g => g.id)) + 1,
+          name: newGoal.name,
+          target: parseFloat(newGoal.target),
+          current: 0,
+          monthly: parseFloat(newGoal.monthly),
+          icon: newGoal.icon,
+          color: newGoal.color
+        };
+
+        setGoals(prev => [...prev, goal]);
+        setShowAddGoalModal(false);
+      }
+    };
+
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md shadow-2xl`}>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Add New Goal</h2>
+            <button onClick={() => setShowAddGoalModal(false)} className={`p-2 ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'} rounded-full transition-all`}>
+              <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
+            </button>
           </div>
-          
-          <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($)</label>
-            <input
-              type="number"
-              value={newGoal.target}
-              onChange={(e) => setNewGoal({...newGoal, target: e.target.value})}
-              className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="10000"
-            />
-          </div>
-          
-          <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($)</label>
-            <input
-              type="number"
-              value={newGoal.monthly}
-              onChange={(e) => setNewGoal({...newGoal, monthly: e.target.value})}
-              className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="500"
-            />
-          </div>
-          
-          <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Icon</label>
-            <div className="grid grid-cols-4 gap-2 max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
-              {['🎯', '🛡️', '✈️', '💻', '🏠', '🚗', '🎓', '💍', '💰', '📱', '🎮', '📚', '🏖️', '🎨', '🍕', '☕'].map(icon => (
-                <button
-                  key={icon}
-                  onClick={() => setNewGoal({...newGoal, icon})}
-                  className={`p-3 rounded-xl text-2xl backdrop-blur-sm transition-all ${newGoal.icon === icon 
-                    ? `${isDarkMode ? 'bg-blue-500/30 border-2 border-blue-400' : 'bg-blue-100 border-2 border-blue-500'}` 
-                    : `${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50 border border-gray-600' : 'bg-gray-100 hover:bg-gray-200'} border border-gray-200`}`}
-                >
-                  {icon}
-                </button>
-              ))}
+
+          <div className="space-y-4">
+            <div>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name</label>
+              <input
+                type="text"
+                value={newGoal.name}
+                onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
+                className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
+                placeholder="e.g., Emergency Fund"
+              />
+            </div>
+
+            <div>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($)</label>
+              <input
+                type="number"
+                value={newGoal.target}
+                onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
+                className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
+                placeholder="10000"
+              />
+            </div>
+
+            <div>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($)</label>
+              <input
+                type="number"
+                value={newGoal.monthly}
+                onChange={(e) => setNewGoal({ ...newGoal, monthly: e.target.value })}
+                className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
+                placeholder="500"
+              />
+            </div>
+
+            <div>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Icon</label>
+              <div className="grid grid-cols-4 gap-2 max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+                {['🎯', '🛡️', '✈️', '💻', '🏠', '🚗', '🎓', '💍', '💰', '📱', '🎮', '📚', '🏖️', '🎨', '🍕', '☕'].map(icon => (
+                  <button
+                    key={icon}
+                    onClick={() => setNewGoal({ ...newGoal, icon })}
+                    className={`p-3 rounded-xl text-2xl backdrop-blur-sm transition-all ${newGoal.icon === icon
+                      ? `${isDarkMode ? 'bg-blue-500/30 border-2 border-blue-400' : 'bg-blue-100 border-2 border-blue-500'}`
+                      : `${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50 border border-gray-600' : 'bg-gray-100 hover:bg-gray-200'} border border-gray-200`}`}
+                  >
+                    {icon}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Color Theme</label>
+              <div className="flex gap-2">
+                {[
+                  { name: 'Blue', value: 'from-blue-500 to-cyan-500' },
+                  { name: 'Purple', value: 'from-purple-500 to-pink-500' },
+                  { name: 'Green', value: 'from-green-500 to-emerald-500' },
+                  { name: 'Orange', value: 'from-orange-500 to-red-500' }
+                ].map(color => (
+                  <button
+                    key={color.value}
+                    onClick={() => setNewGoal({ ...newGoal, color: color.value })}
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color.value} backdrop-blur-sm transition-all ${newGoal.color === color.value ? 'ring-4 ring-blue-500 scale-110' : 'hover:scale-105'}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-          
-          <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Color Theme</label>
-            <div className="flex gap-2">
-              {[
-                { name: 'Blue', value: 'from-blue-500 to-cyan-500' },
-                { name: 'Purple', value: 'from-purple-500 to-pink-500' },
-                { name: 'Green', value: 'from-green-500 to-emerald-500' },
-                { name: 'Orange', value: 'from-orange-500 to-red-500' }
-              ].map(color => (
-                <button
-                  key={color.value}
-                  onClick={() => setNewGoal({...newGoal, color: color.value})}
-                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color.value} backdrop-blur-sm transition-all ${newGoal.color === color.value ? 'ring-4 ring-blue-500 scale-110' : 'hover:scale-105'}`}
-                />
-              ))}
-            </div>
+
+          <div className="flex gap-3 mt-6">
+            <button
+              onClick={() => setShowAddGoalModal(false)}
+              className={`flex-1 py-3 px-4 ${isDarkMode ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'} rounded-xl font-semibold backdrop-blur-sm transition-all`}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleAddGoal}
+              className="flex-1 py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 backdrop-blur-sm transition-all shadow-lg"
+            >
+              Add Goal
+            </button>
           </div>
-        </div>
-        
-        <div className="flex gap-3 mt-6">
-          <button
-            onClick={() => setShowAddGoalModal(false)}
-            className={`flex-1 py-3 px-4 ${isDarkMode ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'} rounded-xl font-semibold backdrop-blur-sm transition-all`}
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleAddGoal}
-            className="flex-1 py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 backdrop-blur-sm transition-all shadow-lg"
-          >
-            Add Goal
-          </button>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  const AddFundsModal = () => (
+  const AddFundsModal = () => {
+    const [addFundsAmount, setAddFundsAmount] = useState('');
+
+    const handleAddFunds = () => {
+    if (addFundsAmount && selectedGoal) {
+      const amount = parseFloat(addFundsAmount);
+      setGoals(goals.map(goal =>
+        goal.id === selectedGoal.id
+          ? { ...goal, current: Math.min(goal.current + amount, goal.target) }
+          : goal
+      ));
+      setAddFundsAmount('');
+      setShowAddFundsModal(false);
+    }
+  };
+
+    return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
@@ -339,7 +392,7 @@ const GoalWise = () => {
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         <div className="text-center mb-6">
           <div className={`w-16 h-16 bg-gradient-to-br ${selectedGoal?.color} rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3`}>
             {selectedGoal?.icon}
@@ -347,7 +400,7 @@ const GoalWise = () => {
           <h3 className="text-lg font-bold text-gray-800">{selectedGoal?.name}</h3>
           <p className="text-sm text-gray-500">Current: ${selectedGoal?.current.toLocaleString()} / ${selectedGoal?.target.toLocaleString()}</p>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($)</label>
@@ -360,7 +413,7 @@ const GoalWise = () => {
             />
           </div>
         </div>
-        
+
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowAddFundsModal(false)}
@@ -378,8 +431,28 @@ const GoalWise = () => {
       </div>
     </div>
   );
+  }
 
-  const LinkAccountModal = () => (
+  const LinkAccountModal = () => {
+    const[linkAccountData, setLinkAccountData] = useState({ name: '', type: 'bank', balance: '' });
+    
+    const handleLinkAccount = () => {
+    if (linkAccountData.name && linkAccountData.balance) {
+      const account = {
+        id: Math.max(...accounts.map(a => a.id)) + 1,
+        name: linkAccountData.name,
+        type: linkAccountData.type,
+        balance: parseFloat(linkAccountData.balance),
+        icon: linkAccountData.type === 'bank' ? 'Building' : linkAccountData.type === 'credit' ? 'CreditCard' : 'Wallet',
+        color: linkAccountData.type === 'bank' ? 'bg-blue-500' : linkAccountData.type === 'credit' ? 'bg-orange-500' : 'bg-indigo-500'
+      };
+      setAccounts([...accounts, account]);
+      setLinkAccountData({ name: '', type: 'bank', balance: '' });
+      setShowLinkAccountModal(false);
+    }
+  };
+    
+    return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
@@ -388,24 +461,24 @@ const GoalWise = () => {
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Account Name</label>
             <input
               type="text"
               value={linkAccountData.name}
-              onChange={(e) => setLinkAccountData({...linkAccountData, name: e.target.value})}
+              onChange={(e) => setLinkAccountData({ ...linkAccountData, name: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="e.g., Chase Checking"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
             <select
               value={linkAccountData.type}
-              onChange={(e) => setLinkAccountData({...linkAccountData, type: e.target.value})}
+              onChange={(e) => setLinkAccountData({ ...linkAccountData, type: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="bank">Bank Account</option>
@@ -413,20 +486,20 @@ const GoalWise = () => {
               <option value="digital">Digital Wallet</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Current Balance ($)</label>
             <input
               type="number"
               step="0.01"
               value={linkAccountData.balance}
-              onChange={(e) => setLinkAccountData({...linkAccountData, balance: e.target.value})}
+              onChange={(e) => setLinkAccountData({ ...linkAccountData, balance: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="3240.50"
             />
           </div>
         </div>
-        
+
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowLinkAccountModal(false)}
@@ -444,8 +517,29 @@ const GoalWise = () => {
       </div>
     </div>
   );
+}
 
-  const EditGoalModal = () => (
+  const EditGoalModal = () => {
+    const [newGoal, setNewGoal] = useState({
+      name: selectedGoal?.name || '',
+      target: selectedGoal?.target || '',
+      monthly: selectedGoal?.monthly || '',
+      icon: selectedGoal?.icon || '🎯',
+      color: selectedGoal?.color || 'from-blue-500 to-cyan-500'
+    });
+    
+    const handleEditGoal = () => {
+    if (selectedGoal) {
+      setGoals(goals.map(goal =>
+        goal.id === selectedGoal.id
+          ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
+          : goal
+      ));
+      setShowEditGoalModal(false);
+    }
+  };
+
+    return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md shadow-2xl`}>
         <div className="flex justify-between items-center mb-6">
@@ -454,50 +548,50 @@ const GoalWise = () => {
             <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name</label>
             <input
               type="text"
               value={newGoal.name}
-              onChange={(e) => setNewGoal({...newGoal, name: e.target.value})}
+              onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="e.g., Emergency Fund"
             />
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($)</label>
             <input
               type="number"
               value={newGoal.target}
-              onChange={(e) => setNewGoal({...newGoal, target: e.target.value})}
+              onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="10000"
             />
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($)</label>
             <input
               type="number"
               value={newGoal.monthly}
-              onChange={(e) => setNewGoal({...newGoal, monthly: e.target.value})}
+              onChange={(e) => setNewGoal({ ...newGoal, monthly: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="500"
             />
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Icon</label>
             <div className="grid grid-cols-4 gap-2 max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
               {['🎯', '🛡️', '✈️', '💻', '🏠', '🚗', '🎓', '💍', '💰', '📱', '🎮', '📚', '🏖️', '🎨', '🍕', '☕'].map(icon => (
                 <button
                   key={icon}
-                  onClick={() => setNewGoal({...newGoal, icon})}
-                  className={`p-3 rounded-xl text-2xl backdrop-blur-sm transition-all ${newGoal.icon === icon 
-                    ? `${isDarkMode ? 'bg-blue-500/30 border-2 border-blue-400' : 'bg-blue-100 border-2 border-blue-500'}` 
+                  onClick={() => setNewGoal({ ...newGoal, icon })}
+                  className={`p-3 rounded-xl text-2xl backdrop-blur-sm transition-all ${newGoal.icon === icon
+                    ? `${isDarkMode ? 'bg-blue-500/30 border-2 border-blue-400' : 'bg-blue-100 border-2 border-blue-500'}`
                     : `${isDarkMode ? 'bg-gray-800/50 hover:bg-gray-700/50 border border-gray-600' : 'bg-gray-100 hover:bg-gray-200'} border border-gray-200`}`}
                 >
                   {icon}
@@ -505,7 +599,7 @@ const GoalWise = () => {
               ))}
             </div>
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Color Theme</label>
             <div className="flex gap-2">
@@ -517,14 +611,14 @@ const GoalWise = () => {
               ].map(color => (
                 <button
                   key={color.value}
-                  onClick={() => setNewGoal({...newGoal, color: color.value})}
+                  onClick={() => setNewGoal({ ...newGoal, color: color.value })}
                   className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color.value} backdrop-blur-sm transition-all ${newGoal.color === color.value ? 'ring-4 ring-blue-500 scale-110' : 'hover:scale-105'}`}
                 />
               ))}
             </div>
           </div>
         </div>
-        
+
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowEditGoalModal(false)}
@@ -542,6 +636,7 @@ const GoalWise = () => {
       </div>
     </div>
   );
+  }
 
   const ScenariosModal = () => (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -552,7 +647,7 @@ const GoalWise = () => {
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         <div className="space-y-4">
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-4">
             <h3 className="font-bold text-gray-800 mb-2">Reduce Dining Out</h3>
@@ -560,14 +655,14 @@ const GoalWise = () => {
             <div className="text-lg font-bold text-green-600">+$135/month saved</div>
             <div className="text-xs text-gray-500 mt-1">Reach Japan goal 2 months earlier</div>
           </div>
-          
+
           <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-2xl p-4">
             <h3 className="font-bold text-gray-800 mb-2">Switch to Annual Plans</h3>
             <p className="text-sm text-gray-600 mb-3">Netflix & Spotify annual subscriptions</p>
             <div className="text-lg font-bold text-blue-600">+$20/month saved</div>
             <div className="text-xs text-gray-500 mt-1">Reach Emergency Fund 1 month earlier</div>
           </div>
-          
+
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-4">
             <h3 className="font-bold text-gray-800 mb-2">Increase Monthly Savings</h3>
             <p className="text-sm text-gray-600 mb-3">Boost Emergency Fund contribution by $100</p>
@@ -575,7 +670,7 @@ const GoalWise = () => {
             <div className="text-xs text-gray-500 mt-1">Reach goal 2 months earlier</div>
           </div>
         </div>
-        
+
         <button
           onClick={() => setShowScenariosModal(false)}
           className="w-full py-3 px-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all mt-6"
@@ -586,7 +681,30 @@ const GoalWise = () => {
     </div>
   );
 
-  const AddInvestmentModal = () => (
+  const AddInvestmentModal = () => { 
+    const [newInvestment, setNewInvestment] = useState({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
+
+    const handleAddInvestment = () => {
+    if (newInvestment.name && newInvestment.symbol && newInvestment.amount && newInvestment.shares) {
+      const investment = {
+        id: Math.max(...investments.map(i => i.id)) + 1,
+        name: newInvestment.name,
+        symbol: newInvestment.symbol,
+        type: newInvestment.type,
+        shares: parseFloat(newInvestment.shares),
+        currentPrice: parseFloat(newInvestment.currentPrice || newInvestment.amount / parseFloat(newInvestment.shares)),
+        purchasePrice: parseFloat(newInvestment.amount) / parseFloat(newInvestment.shares),
+        amount: parseFloat(newInvestment.amount),
+        change: 0,
+        changePercent: 0
+      };
+      setInvestments([...investments, investment]);
+      setNewInvestment({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
+      setShowAddInvestmentModal(false);
+    }
+  };
+  
+    return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md shadow-2xl`}>
         <div className="flex justify-between items-center mb-6">
@@ -595,35 +713,35 @@ const GoalWise = () => {
             <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
         </div>
-        
+
         <div className="space-y-4">
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Company/Asset Name</label>
             <input
               type="text"
               value={newInvestment.name}
-              onChange={(e) => setNewInvestment({...newInvestment, name: e.target.value})}
+              onChange={(e) => setNewInvestment({ ...newInvestment, name: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="e.g., Apple Inc."
             />
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Symbol</label>
             <input
               type="text"
               value={newInvestment.symbol}
-              onChange={(e) => setNewInvestment({...newInvestment, symbol: e.target.value.toUpperCase()})}
+              onChange={(e) => setNewInvestment({ ...newInvestment, symbol: e.target.value.toUpperCase() })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="e.g., AAPL"
             />
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Type</label>
             <select
               value={newInvestment.type}
-              onChange={(e) => setNewInvestment({...newInvestment, type: e.target.value})}
+              onChange={(e) => setNewInvestment({ ...newInvestment, type: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
             >
               <option value="stock">Stock</option>
@@ -632,32 +750,32 @@ const GoalWise = () => {
               <option value="bond">Bond</option>
             </select>
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Shares/Amount</label>
             <input
               type="number"
               step="0.000001"
               value={newInvestment.shares}
-              onChange={(e) => setNewInvestment({...newInvestment, shares: e.target.value})}
+              onChange={(e) => setNewInvestment({ ...newInvestment, shares: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="e.g., 10"
             />
           </div>
-          
+
           <div>
             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Total Investment ($)</label>
             <input
               type="number"
               step="0.01"
               value={newInvestment.amount}
-              onChange={(e) => setNewInvestment({...newInvestment, amount: e.target.value})}
+              onChange={(e) => setNewInvestment({ ...newInvestment, amount: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
               placeholder="e.g., 1500.00"
             />
           </div>
         </div>
-        
+
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowAddInvestmentModal(false)}
@@ -675,6 +793,7 @@ const GoalWise = () => {
       </div>
     </div>
   );
+  }
 
   const HomeScreen = () => (
     <div className="space-y-6 pb-24">
@@ -697,7 +816,7 @@ const GoalWise = () => {
             </button>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/10 backdrop-blur rounded-xl p-3">
             <p className="text-xs text-blue-200">Income</p>
@@ -725,7 +844,7 @@ const GoalWise = () => {
             <TrendingUp className="w-5 h-5" />
           </button>
         </div>
-        
+
         <div className="mb-4">
           <p className="text-3xl font-bold">${getTotalInvestmentValue().toLocaleString()}</p>
           <div className="flex items-center gap-2 mt-1">
@@ -739,7 +858,7 @@ const GoalWise = () => {
             </span>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white/10 backdrop-blur rounded-lg p-3">
             <p className="text-xs text-green-200">Top Performer</p>
@@ -808,18 +927,16 @@ const GoalWise = () => {
           {transactions.slice(0, 3).map((tx, i) => (
             <div key={i} className="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                  tx.type === 'income' ? 'bg-green-100' : 
-                  tx.type === 'subscription' ? 'bg-purple-100' : 
-                  tx.type === 'transfer' ? 'bg-blue-100' : 
-                  tx.type === 'loan' ? 'bg-orange-100' : 'bg-gray-100'
-                }`}>
-                  <DollarSign className={`w-5 h-5 ${
-                    tx.type === 'income' ? 'text-green-600' : 
-                    tx.type === 'subscription' ? 'text-purple-600' : 
-                    tx.type === 'transfer' ? 'text-blue-600' : 
-                    tx.type === 'loan' ? 'text-orange-600' : 'text-gray-600'
-                  }`} />
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100' :
+                    tx.type === 'subscription' ? 'bg-purple-100' :
+                      tx.type === 'transfer' ? 'bg-blue-100' :
+                        tx.type === 'loan' ? 'bg-orange-100' : 'bg-gray-100'
+                  }`}>
+                  <DollarSign className={`w-5 h-5 ${tx.type === 'income' ? 'text-green-600' :
+                      tx.type === 'subscription' ? 'text-purple-600' :
+                        tx.type === 'transfer' ? 'text-blue-600' :
+                          tx.type === 'loan' ? 'text-orange-600' : 'text-gray-600'
+                    }`} />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-800">{tx.name}</p>
@@ -862,7 +979,7 @@ const GoalWise = () => {
                 </div>
                 <div className="text-right">
                   <p className={`font-bold text-lg ${account.balance < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                    {account.balance < 0 ? '-' : ''}${Math.abs(account.balance).toLocaleString('en-US', {minimumFractionDigits: 2})}
+                    {account.balance < 0 ? '-' : ''}${Math.abs(account.balance).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </p>
                   <p className="text-xs text-gray-500">Available</p>
                 </div>
@@ -878,17 +995,16 @@ const GoalWise = () => {
           {transactions.map((tx, i) => (
             <div key={i} className="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors cursor-pointer">
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                  tx.type === 'income' ? 'bg-green-100' : 
-                  tx.type === 'subscription' ? 'bg-purple-100' : 
-                  tx.type === 'transfer' ? 'bg-blue-100' : 
-                  tx.type === 'loan' ? 'bg-orange-100' : 'bg-gray-100'
-                }`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100' :
+                    tx.type === 'subscription' ? 'bg-purple-100' :
+                      tx.type === 'transfer' ? 'bg-blue-100' :
+                        tx.type === 'loan' ? 'bg-orange-100' : 'bg-gray-100'
+                  }`}>
                   {tx.type === 'income' ? <ArrowDownRight className="w-5 h-5 text-green-600" /> :
-                   tx.type === 'subscription' ? <Zap className="w-5 h-5 text-purple-600" /> :
-                   tx.type === 'transfer' ? <ArrowUpRight className="w-5 h-5 text-blue-600" /> :
-                   tx.type === 'loan' ? <CreditCard className="w-5 h-5 text-orange-600" /> :
-                   <DollarSign className="w-5 h-5 text-gray-600" />}
+                    tx.type === 'subscription' ? <Zap className="w-5 h-5 text-purple-600" /> :
+                      tx.type === 'transfer' ? <ArrowUpRight className="w-5 h-5 text-blue-600" /> :
+                        tx.type === 'loan' ? <CreditCard className="w-5 h-5 text-orange-600" /> :
+                          <DollarSign className="w-5 h-5 text-gray-600" />}
                 </div>
                 <div>
                   <p className="font-semibold text-gray-800">{tx.name}</p>
@@ -947,11 +1063,11 @@ const GoalWise = () => {
                 {Math.round((goal.current / goal.target) * 100)}%
               </span>
             </div>
-            
+
             <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
               <div className={`bg-gradient-to-r ${goal.color} h-3 rounded-full transition-all duration-500 shadow-sm`} style={{ width: `${(goal.current / goal.target) * 100}%` }}></div>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-3 mt-4">
               <div className="bg-gray-50 rounded-lg p-2">
                 <p className="text-xs text-gray-500">Monthly</p>
@@ -977,7 +1093,7 @@ const GoalWise = () => {
     const progress = (selectedGoal.current / selectedGoal.target) * 100;
     const remaining = selectedGoal.target - selectedGoal.current;
     const monthsRemaining = Math.ceil(remaining / selectedGoal.monthly);
-    
+
     return (
       <div className="space-y-6 pb-24">
         <button onClick={() => setActiveScreen('goals')} className="text-blue-600 font-semibold flex items-center gap-1 hover:gap-2 transition-all">
@@ -994,7 +1110,7 @@ const GoalWise = () => {
               <p className="text-white/80">Target: ${selectedGoal.target.toLocaleString()}</p>
             </div>
           </div>
-          
+
           <div className="bg-white/10 backdrop-blur rounded-2xl p-4 mb-4">
             <div className="flex justify-between mb-2">
               <span className="text-sm">Progress</span>
@@ -1035,7 +1151,7 @@ const GoalWise = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-2xl p-4">
               <div className="flex items-start gap-3">
                 <div className="bg-blue-500 p-2 rounded-lg">
@@ -1073,7 +1189,7 @@ const GoalWise = () => {
           <button onClick={() => setShowAddFundsModal(true)} className="bg-blue-600 text-white rounded-xl p-4 font-semibold hover:bg-blue-700 transition-all">
             Add Funds
           </button>
-          <button onClick={() => { setNewGoal({...selectedGoal, name: selectedGoal.name, target: selectedGoal.target.toString(), monthly: selectedGoal.monthly.toString(), icon: selectedGoal.icon, color: selectedGoal.color}); setShowEditGoalModal(true); }} className="bg-gray-100 text-gray-700 rounded-xl p-4 font-semibold hover:bg-gray-200 transition-all">
+          <button onClick={() => { setNewGoal({ ...selectedGoal, name: selectedGoal.name, target: selectedGoal.target.toString(), monthly: selectedGoal.monthly.toString(), icon: selectedGoal.icon, color: selectedGoal.color }); setShowEditGoalModal(true); }} className="bg-gray-100 text-gray-700 rounded-xl p-4 font-semibold hover:bg-gray-200 transition-all">
             Edit Goal
           </button>
         </div>
@@ -1237,11 +1353,10 @@ const GoalWise = () => {
             <button
               key={chart.type}
               onClick={() => setChartType(chart.type)}
-              className={`flex items-center justify-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                chartType === chart.type 
-                  ? 'bg-blue-600 text-white' 
+              className={`flex items-center justify-center gap-2 px-3 py-2 rounded-lg transition-all ${chartType === chart.type
+                  ? 'bg-blue-600 text-white'
                   : `${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`
-              }`}
+                }`}
             >
               <chart.icon className="w-4 h-4" />
               <span className="text-sm font-medium">{chart.label}</span>
@@ -1258,7 +1373,7 @@ const GoalWise = () => {
           {chartType === 'histogram' && 'Spending Distribution'}
           {chartType === 'trend' && 'Spending Trends'}
         </h3>
-        
+
         {chartType === 'pie' && (
           <div className="space-y-4">
             <div className="text-center mb-6">
@@ -1268,14 +1383,14 @@ const GoalWise = () => {
                     const spendingData = getSpendingByCategory();
                     const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
                     let cumulativePercentage = 0;
-                    
+
                     return spendingData.map((item, index) => {
                       const percentage = item.percent;
                       const circumference = 2 * Math.PI * 45; // radius = 45
                       const strokeDasharray = `${(percentage / 100) * circumference} ${circumference}`;
                       const strokeDashoffset = -((cumulativePercentage / 100) * circumference);
                       cumulativePercentage += percentage;
-                      
+
                       return (
                         <circle
                           key={item.category}
@@ -1303,15 +1418,15 @@ const GoalWise = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-3">
               {getSpendingByCategory().map((item, index) => {
                 const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
                 return (
                   <div key={item.category} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div 
-                        className="w-4 h-4 rounded-full" 
+                      <div
+                        className="w-4 h-4 rounded-full"
                         style={{ backgroundColor: colors[index % colors.length] }}
                       ></div>
                       <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -1338,13 +1453,13 @@ const GoalWise = () => {
             <div className="text-center mb-4">
               <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>6-Month Spending vs Income</p>
             </div>
-            
+
             <div className="space-y-6">
               {getMonthlySpendingData().map((month, index) => {
                 const maxValue = Math.max(...getMonthlySpendingData().map(m => Math.max(m.spending, m.income)));
                 const spendingHeight = (month.spending / maxValue) * 80; // Fixed height calculation
                 const incomeHeight = (month.income / maxValue) * 80; // Fixed height calculation
-                
+
                 return (
                   <div key={month.month} className="space-y-3">
                     <div className="text-center">
@@ -1352,11 +1467,11 @@ const GoalWise = () => {
                         {month.month}
                       </p>
                     </div>
-                    
+
                     <div className="flex items-end justify-center gap-6 h-24">
                       {/* Spending Bar */}
                       <div className="flex flex-col items-center gap-2">
-                        <div 
+                        <div
                           className="w-12 bg-gradient-to-t from-red-500 to-red-400 rounded-t-lg transition-all duration-500 shadow-md"
                           style={{ height: `${Math.max(spendingHeight, 8)}px` }}
                         ></div>
@@ -1365,10 +1480,10 @@ const GoalWise = () => {
                           <p className="text-xs font-bold text-red-500">${month.spending.toLocaleString()}</p>
                         </div>
                       </div>
-                      
+
                       {/* Income Bar */}
                       <div className="flex flex-col items-center gap-2">
-                        <div 
+                        <div
                           className="w-12 bg-gradient-to-t from-green-500 to-green-400 rounded-t-lg transition-all duration-500 shadow-md"
                           style={{ height: `${Math.max(incomeHeight, 8)}px` }}
                         ></div>
@@ -1378,7 +1493,7 @@ const GoalWise = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex justify-between items-center text-xs px-4">
                       <span className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                         Savings: ${month.savings.toLocaleString()}
@@ -1399,13 +1514,13 @@ const GoalWise = () => {
             <div className="text-center mb-4">
               <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>Spending Distribution by Amount</p>
             </div>
-            
+
             <div className="space-y-4">
               {getSpendingDistribution().map((range, index) => {
                 const maxCount = Math.max(...getSpendingDistribution().map(r => r.count));
                 const height = maxCount > 0 ? (range.count / maxCount) * 100 : 0;
                 const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
-                
+
                 return (
                   <div key={range.range} className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -1417,9 +1532,9 @@ const GoalWise = () => {
                       </span>
                     </div>
                     <div className="flex items-end gap-1 h-8">
-                      <div 
+                      <div
                         className="flex-1 bg-gradient-to-t rounded-t-sm transition-all duration-500"
-                        style={{ 
+                        style={{
                           height: `${Math.max(height, 5)}%`,
                           background: `linear-gradient(to top, ${colors[index % colors.length]}, ${colors[index % colors.length]}80)`
                         }}
@@ -1429,7 +1544,7 @@ const GoalWise = () => {
                 );
               })}
             </div>
-            
+
             <div className="text-center pt-4 border-t border-gray-200">
               <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Total transactions analyzed: {getSpendingDistribution().reduce((sum, range) => sum + range.count, 0)}
@@ -1443,17 +1558,17 @@ const GoalWise = () => {
             <div className="text-center mb-4">
               <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>6-Month Financial Trends</p>
             </div>
-            
+
             <div className="relative h-64 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
               <svg className="w-full h-full" viewBox="0 0 400 200">
                 {/* Grid lines */}
                 <defs>
                   <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E5E7EB" strokeWidth="0.5"/>
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E5E7EB" strokeWidth="0.5" />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#grid)" />
-                
+
                 {/* Spending trend line */}
                 <polyline
                   fill="none"
@@ -1462,7 +1577,7 @@ const GoalWise = () => {
                   points="20,160 80,140 140,120 200,100 260,80 320,60"
                   className="drop-shadow-sm"
                 />
-                
+
                 {/* Income trend line */}
                 <polyline
                   fill="none"
@@ -1471,7 +1586,7 @@ const GoalWise = () => {
                   points="20,140 80,130 140,120 200,110 260,100 320,90"
                   className="drop-shadow-sm"
                 />
-                
+
                 {/* Savings trend line */}
                 <polyline
                   fill="none"
@@ -1480,14 +1595,14 @@ const GoalWise = () => {
                   points="20,180 80,170 140,160 200,150 260,140 320,130"
                   className="drop-shadow-sm"
                 />
-                
+
                 {/* Data points */}
                 {getMonthlySpendingData().map((month, index) => {
                   const x = 20 + (index * 60);
                   const spendingY = 160 - (index * 20);
                   const incomeY = 140 - (index * 10);
                   const savingsY = 180 - (index * 10);
-                  
+
                   return (
                     <g key={month.month}>
                       <circle cx={x} cy={spendingY} r="4" fill="#EF4444" />
@@ -1497,7 +1612,7 @@ const GoalWise = () => {
                   );
                 })}
               </svg>
-              
+
               {/* Legend */}
               <div className="absolute top-4 right-4 space-y-2">
                 <div className="flex items-center gap-2">
@@ -1514,7 +1629,7 @@ const GoalWise = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
                 <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Spending Trend</p>
@@ -1619,7 +1734,7 @@ const GoalWise = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/10 backdrop-blur rounded-xl p-3">
             <p className="text-xs text-green-200">Total Holdings</p>
