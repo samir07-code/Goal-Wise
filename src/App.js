@@ -9,7 +9,7 @@ const GoalWise = () => {
   const [showEditGoalModal, setShowEditGoalModal] = useState(false);
   const [showLinkAccountModal, setShowLinkAccountModal] = useState(false);
   const [showScenariosModal, setShowScenariosModal] = useState(false);
-  const [newGoal, setNewGoal] = useState({ name: '', target: '', monthly: '', icon: '🎯', color: 'from-blue-500 to-cyan-500' });
+  const [newGoal, setNewGoal] = useState({ name: '', target: '', monthly: '', icon: '🎯', color: 'from-blue-500 to-cyan-500', contributions: [] });
   const [addFundsAmount, setAddFundsAmount] = useState('');
   const [linkAccountData, setLinkAccountData] = useState({ name: '', type: 'bank', balance: '' });
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -265,7 +265,8 @@ const GoalWise = () => {
       target: '',
       monthly: '',
       icon: '🎯',
-      color: 'from-blue-500 to-cyan-500'
+      color: 'from-blue-500 to-cyan-500',
+      contributions: []
     });
 
     const handleAddGoal = () => {
@@ -277,7 +278,8 @@ const GoalWise = () => {
           current: 0,
           monthly: parseFloat(newGoal.monthly),
           icon: newGoal.icon,
-          color: newGoal.color
+          color: newGoal.color,
+          contributions: []
         };
 
         setGoals(prev => [...prev, goal]);
