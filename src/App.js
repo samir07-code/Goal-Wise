@@ -25,9 +25,26 @@ const GoalWise = () => {
   ]);
 
   const [goals, setGoals] = useState([
-    { id: 1, name: 'Emergency Fund', target: 10000, current: 6420, monthly: 450, icon: '🛡️', color: 'from-blue-500 to-cyan-500' },
-    { id: 2, name: 'Vacation to Japan', target: 5000, current: 2100, monthly: 300, icon: '✈️', color: 'from-purple-500 to-pink-500' },
-    { id: 3, name: 'New Laptop', target: 2000, current: 1650, monthly: 200, icon: '💻', color: 'from-green-500 to-emerald-500' }
+    { id: 1, name: 'Emergency Fund', target: 10000, current: 6420, monthly: 450, icon: '🛡️', color: 'from-blue-500 to-cyan-500',
+      contributions: [
+              { date: 'Oct 15, 2025', amount: 300 },
+              { date: 'Oct 1, 2025', amount: 300 },
+              { date: 'Sep 15, 2025', amount: 300 }
+            ]
+     },
+    { id: 2, name: 'Vacation to Japan', target: 5000, current: 2100, monthly: 300, icon: '✈️', color: 'from-purple-500 to-pink-500',
+      contributions: [
+              { date: 'Oct 15, 2025', amount: 300 },
+              { date: 'Oct 1, 2025', amount: 300 },
+              { date: 'Sep 15, 2025', amount: 300 }
+            ]
+        },
+    { id: 3, name: 'New Laptop', target: 2000, current: 1650, monthly: 200, icon: '💻', color: 'from-green-500 to-emerald-500',
+      contributions: [
+              { date: 'Oct 15, 2025', amount: 300 },
+              { date: 'Oct 1, 2025', amount: 300 },
+              { date: 'Sep 15, 2025', amount: 300 }
+            ] }
   ]);
 
 
@@ -372,10 +389,14 @@ const GoalWise = () => {
 
     const handleAddFunds = () => {
     if (addFundsAmount && selectedGoal) {
+      const [_, month, day, year] = (new Date().toString()).split(" ");
+      const date = `${month} ${day}, ${year}`;
+
       const amount = parseFloat(addFundsAmount);
       setGoals(goals.map(goal =>
         goal.id === selectedGoal.id
-          ? { ...goal, current: Math.min(goal.current + amount, goal.target) }
+          ? { ...goal, current: Math.min(goal.current + amount, goal.target), 
+            contributions: [{ date, amount }, ...goal.contributions] }
           : goal
       ));
       setAddFundsAmount('');
@@ -1169,11 +1190,7 @@ const GoalWise = () => {
         <div>
           <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Contributions</h2>
           <div className="bg-white rounded-2xl shadow-md divide-y">
-            {[
-              { date: 'Oct 15, 2025', amount: 300 },
-              { date: 'Oct 1, 2025', amount: 300 },
-              { date: 'Sep 15, 2025', amount: 300 }
-            ].map((contribution, i) => (
+            {selectedGoal.contributions.map((contribution, i) => (
               <div key={i} className="p-4 flex justify-between items-center">
                 <div>
                   <p className="font-semibold text-gray-800">Manual Contribution</p>
