@@ -9,7 +9,7 @@ const GoalWise = () => {
   const [showEditGoalModal, setShowEditGoalModal] = useState(false);
   const [showLinkAccountModal, setShowLinkAccountModal] = useState(false);
   const [showScenariosModal, setShowScenariosModal] = useState(false);
-  const [newGoal, setNewGoal] = useState({ name: '', target: '', monthly: '', icon: '🎯', color: 'from-blue-500 to-cyan-500' });
+  const [newGoal, setNewGoal] = useState({ name: '', target: '', monthly: '', icon: '🎯', color: 'from-blue-500 to-cyan-500', contributions: [] });
   const [addFundsAmount, setAddFundsAmount] = useState('');
   const [linkAccountData, setLinkAccountData] = useState({ name: '', type: 'bank', balance: '' });
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -25,9 +25,26 @@ const GoalWise = () => {
   ]);
 
   const [goals, setGoals] = useState([
-    { id: 1, name: 'Emergency Fund', target: 10000, current: 6420, monthly: 450, icon: '🛡️', color: 'from-blue-500 to-cyan-500' },
-    { id: 2, name: 'Vacation to Japan', target: 5000, current: 2100, monthly: 300, icon: '✈️', color: 'from-purple-500 to-pink-500' },
-    { id: 3, name: 'New Laptop', target: 2000, current: 1650, monthly: 200, icon: '💻', color: 'from-green-500 to-emerald-500' }
+    { id: 1, name: 'Emergency Fund', target: 10000, current: 6420, monthly: 450, icon: '🛡️', color: 'from-blue-500 to-cyan-500',
+      contributions: [
+              { date: 'Oct 15, 2025', amount: 300 },
+              { date: 'Oct 1, 2025', amount: 300 },
+              { date: 'Sep 15, 2025', amount: 300 }
+            ]
+     },
+    { id: 2, name: 'Vacation to Japan', target: 5000, current: 2100, monthly: 300, icon: '✈️', color: 'from-purple-500 to-pink-500',
+      contributions: [
+              { date: 'Oct 15, 2025', amount: 300 },
+              { date: 'Oct 1, 2025', amount: 300 },
+              { date: 'Sep 15, 2025', amount: 300 }
+            ]
+        },
+    { id: 3, name: 'New Laptop', target: 2000, current: 1650, monthly: 200, icon: '💻', color: 'from-green-500 to-emerald-500',
+      contributions: [
+              { date: 'Oct 15, 2025', amount: 300 },
+              { date: 'Oct 1, 2025', amount: 300 },
+              { date: 'Sep 15, 2025', amount: 300 }
+            ] }
   ]);
 
 
@@ -248,7 +265,8 @@ const GoalWise = () => {
       target: '',
       monthly: '',
       icon: '🎯',
-      color: 'from-blue-500 to-cyan-500'
+      color: 'from-blue-500 to-cyan-500',
+      contributions: []
     });
 
     const handleAddGoal = () => {
@@ -260,7 +278,8 @@ const GoalWise = () => {
           current: 0,
           monthly: parseFloat(newGoal.monthly),
           icon: newGoal.icon,
-          color: newGoal.color
+          color: newGoal.color,
+          contributions: []
         };
 
         setGoals(prev => [...prev, goal]);
@@ -372,10 +391,14 @@ const GoalWise = () => {
 
     const handleAddFunds = () => {
     if (addFundsAmount && selectedGoal) {
+      const [_, month, day, year] = (new Date().toString()).split(" ");
+      const date = `${month} ${day}, ${year}`;
+
       const amount = parseFloat(addFundsAmount);
       setGoals(goals.map(goal =>
         goal.id === selectedGoal.id
-          ? { ...goal, current: Math.min(goal.current + amount, goal.target) }
+          ? { ...goal, current: Math.min(goal.current + amount, goal.target), 
+            contributions: [{ date, amount }, ...goal.contributions] }
           : goal
       ));
       setAddFundsAmount('');
@@ -1089,10 +1112,12 @@ const GoalWise = () => {
   );
 
   const GoalDetailScreen = () => {
+    const [selectedGoalState, setSelectedGoalState] = useState(goals.find(g => g.id === selectedGoal.id));
+
     if (!selectedGoal) return null;
-    const progress = (selectedGoal.current / selectedGoal.target) * 100;
-    const remaining = selectedGoal.target - selectedGoal.current;
-    const monthsRemaining = Math.ceil(remaining / selectedGoal.monthly);
+    const progress = (selectedGoalState.current / selectedGoalState.target) * 100;
+    const remaining = selectedGoalState.target - selectedGoalState.current;
+    const monthsRemaining = Math.ceil(remaining / selectedGoalState.monthly);
 
     return (
       <div className="space-y-6 pb-24">
@@ -1100,14 +1125,14 @@ const GoalWise = () => {
           <ChevronRight className="w-5 h-5 rotate-180" /> Back to Goals
         </button>
 
-        <div className={`bg-gradient-to-br ${selectedGoal.color} rounded-3xl p-6 text-white shadow-xl`}>
+        <div className={`bg-gradient-to-br ${selectedGoalState.color} rounded-3xl p-6 text-white shadow-xl`}>
           <div className="flex items-center gap-4 mb-6">
             <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-4xl">
-              {selectedGoal.icon}
+              {selectedGoalState.icon}
             </div>
             <div>
-              <h1 className="text-2xl font-bold">{selectedGoal.name}</h1>
-              <p className="text-white/80">Target: ${selectedGoal.target.toLocaleString()}</p>
+              <h1 className="text-2xl font-bold">{selectedGoalState.name}</h1>
+              <p className="text-white/80">Target: ${selectedGoalState.target.toLocaleString()}</p>
             </div>
           </div>
 
@@ -1120,15 +1145,15 @@ const GoalWise = () => {
               <div className="bg-white h-3 rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
             </div>
             <div className="flex justify-between mt-2 text-sm">
-              <span>${selectedGoal.current.toLocaleString()}</span>
-              <span>${selectedGoal.target.toLocaleString()}</span>
+              <span>${selectedGoalState.current.toLocaleString()}</span>
+              <span>${selectedGoalState.target.toLocaleString()}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white/10 backdrop-blur rounded-xl p-3">
               <p className="text-xs text-white/70">Monthly Savings</p>
-              <p className="text-2xl font-bold">${selectedGoal.monthly}</p>
+              <p className="text-2xl font-bold">${selectedGoalState.monthly}</p>
             </div>
             <div className="bg-white/10 backdrop-blur rounded-xl p-3">
               <p className="text-xs text-white/70">Months Left</p>
@@ -1169,11 +1194,7 @@ const GoalWise = () => {
         <div>
           <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Contributions</h2>
           <div className="bg-white rounded-2xl shadow-md divide-y">
-            {[
-              { date: 'Oct 15, 2025', amount: 300 },
-              { date: 'Oct 1, 2025', amount: 300 },
-              { date: 'Sep 15, 2025', amount: 300 }
-            ].map((contribution, i) => (
+            {selectedGoalState.contributions.map((contribution, i) => (
               <div key={i} className="p-4 flex justify-between items-center">
                 <div>
                   <p className="font-semibold text-gray-800">Manual Contribution</p>
@@ -1189,7 +1210,7 @@ const GoalWise = () => {
           <button onClick={() => setShowAddFundsModal(true)} className="bg-blue-600 text-white rounded-xl p-4 font-semibold hover:bg-blue-700 transition-all">
             Add Funds
           </button>
-          <button onClick={() => { setNewGoal({ ...selectedGoal, name: selectedGoal.name, target: selectedGoal.target.toString(), monthly: selectedGoal.monthly.toString(), icon: selectedGoal.icon, color: selectedGoal.color }); setShowEditGoalModal(true); }} className="bg-gray-100 text-gray-700 rounded-xl p-4 font-semibold hover:bg-gray-200 transition-all">
+          <button onClick={() => { setNewGoal({ ...selectedGoalState, name: selectedGoalState.name, target: selectedGoalState.target.toString(), monthly: selectedGoalState.monthly.toString(), icon: selectedGoalState.icon, color: selectedGoalState.color }); setShowEditGoalModal(true); }} className="bg-gray-100 text-gray-700 rounded-xl p-4 font-semibold hover:bg-gray-200 transition-all">
             Edit Goal
           </button>
         </div>
