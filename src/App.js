@@ -258,6 +258,14 @@ const GoalWise = () => {
     return icons[iconName] || Wallet;
   };
 
+  // Remove error highlight from valid input fields
+  const unhighlightValidInput = (e) => {
+    if (e.target.value) {
+      e.target.classList.remove('border-red-500', 'focus:ring-red-500');
+      e.target.removeEventListener('input', unhighlightValidInput);
+    }
+  };
+
   // Modal Components
   const AddGoalModal = ({  }) => {
     const [newGoal, setNewGoal] = useState({
@@ -290,6 +298,14 @@ const GoalWise = () => {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
           }, 10);
         }
+      } else {
+        document.querySelectorAll('input').forEach(input => {
+          if (!input.value) {
+            input.classList.add('border-red-500', 'focus:ring-red-500');
+            
+            input.addEventListener('input', unhighlightValidInput);
+          }
+        });
       }
     };
 
@@ -305,7 +321,7 @@ const GoalWise = () => {
 
           <div className="space-y-4">
             <div>
-              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name</label>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name <span className="text-red-500">* <sup>(required)</sup></span> </label>
               <input
                 type="text"
                 value={newGoal.name}
@@ -316,7 +332,7 @@ const GoalWise = () => {
             </div>
 
             <div>
-              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($)</label>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($) <span className="text-red-500">* <sup>(required)</sup></span> </label>
               <input
                 type="number"
                 value={newGoal.target}
@@ -327,7 +343,7 @@ const GoalWise = () => {
             </div>
 
             <div>
-              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($)</label>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
               <input
                 type="number"
                 value={newGoal.monthly}
