@@ -426,6 +426,12 @@ const GoalWise = () => {
       ));
       setAddFundsAmount('');
       setShowAddFundsModal(false);
+    } else {
+      const input = document.querySelector('input[type="number"]');
+      if (input) {
+        input.classList.add('border-red-500', 'focus:ring-red-500');
+        input.addEventListener('input', unhighlightValidInput);
+      }
     }
   };
 
@@ -449,7 +455,7 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
               type="number"
               value={addFundsAmount}
