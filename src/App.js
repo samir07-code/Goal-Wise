@@ -753,6 +753,14 @@ const GoalWise = () => {
       setInvestments([...investments, investment]);
       setNewInvestment({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
       setShowAddInvestmentModal(false);
+    } else {
+      const inputs = document.querySelectorAll('input[required]');
+      inputs.forEach(input => {
+        if (!input.value) {
+          input.classList.add('border-red-500', 'focus:ring-red-500');
+          input.addEventListener('input', unhighlightValidInput);
+        }
+      });
     }
   };
   
@@ -768,8 +776,9 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Company/Asset Name</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Company/Asset Name <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="text"
               value={newInvestment.name}
               onChange={(e) => setNewInvestment({ ...newInvestment, name: e.target.value })}
@@ -779,8 +788,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Symbol</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Symbol <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="text"
               value={newInvestment.symbol}
               onChange={(e) => setNewInvestment({ ...newInvestment, symbol: e.target.value.toUpperCase() })}
@@ -804,8 +814,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Shares/Amount</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Shares/Amount <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               step="0.000001"
               value={newInvestment.shares}
@@ -816,8 +827,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Total Investment ($)</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Total Investment ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               step="0.01"
               value={newInvestment.amount}
