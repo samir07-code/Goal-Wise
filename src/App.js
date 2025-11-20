@@ -394,7 +394,8 @@ const GoalWise = () => {
       const [_, month, day, year] = (new Date().toString()).split(" ");
       const date = `${month} ${day}, ${year}`;
 
-      const amount = parseFloat(addFundsAmount);
+      let amount = parseFloat(addFundsAmount);
+      amount = Math.min(amount, selectedGoal.target - selectedGoal.current);
       setGoals(goals.map(goal =>
         goal.id === selectedGoal.id
           ? { ...goal, current: Math.min(goal.current + amount, goal.target), 
