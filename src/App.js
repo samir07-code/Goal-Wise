@@ -596,14 +596,17 @@ const GoalWise = () => {
     });
     
     const handleEditGoal = () => {
-    if (selectedGoal) {
-      setGoals(goals.map(goal =>
-        goal.id === selectedGoal.id
-          ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
-          : goal
-      ));
-      setShowEditGoalModal(false);
-    }
+      if (selectedGoal) {
+        newGoal.name = (newGoal.name) ? newGoal.name : selectedGoal.name;
+        newGoal.target = (newGoal.target) ? newGoal.target : selectedGoal.target;
+        newGoal.monthly = (newGoal.monthly) ? newGoal.monthly : selectedGoal.monthly;
+        setGoals(goals.map(goal =>
+          goal.id === selectedGoal.id
+            ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
+            : goal
+        ));
+        setShowEditGoalModal(false);
+      }
   };
 
     return (
@@ -624,7 +627,7 @@ const GoalWise = () => {
               value={newGoal.name}
               onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="e.g., Emergency Fund"
+              placeholder={selectedGoal.name}
             />
           </div>
 
@@ -635,7 +638,7 @@ const GoalWise = () => {
               value={newGoal.target}
               onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="10000"
+              placeholder={selectedGoal.target}
             />
           </div>
 
@@ -646,7 +649,7 @@ const GoalWise = () => {
               value={newGoal.monthly}
               onChange={(e) => setNewGoal({ ...newGoal, monthly: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="500"
+              placeholder={selectedGoal.monthly}
             />
           </div>
 
