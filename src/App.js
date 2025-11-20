@@ -753,6 +753,12 @@ const GoalWise = () => {
       setInvestments([...investments, investment]);
       setNewInvestment({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
       setShowAddInvestmentModal(false);
+
+      if (activeScreen == "investments") {
+        setTimeout(() => {
+          window.scrollTo({ top: document.body.scrollHeight - window.innerHeight - 150, behavior: 'smooth' });
+        }, 10);
+      }
     } else {
       const inputs = document.querySelectorAll('input[required]');
       inputs.forEach(input => {
