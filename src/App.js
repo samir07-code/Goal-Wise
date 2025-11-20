@@ -299,7 +299,8 @@ const GoalWise = () => {
           }, 10);
         }
       } else {
-        document.querySelectorAll('input').forEach(input => {
+        const inputs = document.querySelectorAll('input[required]');
+        inputs.forEach(input => {
           if (!input.value) {
             input.classList.add('border-red-500', 'focus:ring-red-500');
             
@@ -323,6 +324,7 @@ const GoalWise = () => {
             <div>
               <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name <span className="text-red-500">* <sup>(required)</sup></span> </label>
               <input
+                required
                 type="text"
                 value={newGoal.name}
                 onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
@@ -334,6 +336,7 @@ const GoalWise = () => {
             <div>
               <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($) <span className="text-red-500">* <sup>(required)</sup></span> </label>
               <input
+                required
                 type="number"
                 value={newGoal.target}
                 onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
@@ -345,6 +348,7 @@ const GoalWise = () => {
             <div>
               <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
               <input
+                required
                 type="number"
                 value={newGoal.monthly}
                 onChange={(e) => setNewGoal({ ...newGoal, monthly: e.target.value })}
@@ -457,6 +461,7 @@ const GoalWise = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               value={addFundsAmount}
               onChange={(e) => setAddFundsAmount(e.target.value)}
