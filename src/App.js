@@ -501,6 +501,14 @@ const GoalWise = () => {
       setAccounts([...accounts, account]);
       setLinkAccountData({ name: '', type: 'bank', balance: '' });
       setShowLinkAccountModal(false);
+    } else {
+      const inputs = document.querySelectorAll('input[required]');
+      inputs.forEach(input => {
+        if (!input.value) {
+          input.classList.add('border-red-500', 'focus:ring-red-500');
+          input.addEventListener('input', unhighlightValidInput);
+        }
+      });
     }
   };
     
@@ -516,8 +524,9 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Account Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Account Name <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="text"
               value={linkAccountData.name}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, name: e.target.value })}
@@ -540,8 +549,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current Balance ($)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Current Balance ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               step="0.01"
               value={linkAccountData.balance}
