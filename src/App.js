@@ -284,6 +284,12 @@ const GoalWise = () => {
 
         setGoals(prev => [...prev, goal]);
         setShowAddGoalModal(false);
+        
+        if (activeScreen === 'goals') {
+          setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          }, 10);
+        }
       }
     };
 
