@@ -1176,6 +1176,12 @@ const GoalWise = () => {
     </div>
   );
 
+  const getTargetDate = (monthsRemaining) => {
+    const currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() + monthsRemaining);
+    return currentDate.toLocaleString('default', { month: 'short', year: 'numeric' });
+  }
+
   const GoalDetailScreen = () => {
     const [selectedGoalState, setSelectedGoalState] = useState(goals.find(g => g.id === selectedGoal.id));
 
@@ -1249,7 +1255,7 @@ const GoalWise = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-800 mb-1">On Track</h3>
-                  <p className="text-sm text-gray-600">You're saving consistently! Keep it up to reach your goal by Jun 2026</p>
+                  <p className="text-sm text-gray-600">You're saving consistently! Keep it up to reach your goal by {getTargetDate(monthsRemaining)}</p>
                 </div>
               </div>
             </div>
