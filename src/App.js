@@ -519,11 +519,11 @@ const GoalWise = () => {
     
     return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-3xl p-6 w-full max-w-md`}>
+      <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white /95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md`}>
         <div className="flex justify-between items-center mb-6">
           <h2 className={`text-2xl font-bold  ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Link Account</h2>
-          <button onClick={() => setShowLinkAccountModal(false)} className="p-2 hover:bg-gray-100 rounded-full">
-            <X className="w-5 h-5" />
+          <button onClick={() => setShowLinkAccountModal(false)} className={`p-2 rounded-full transition-all ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+            <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
         </div>
 
@@ -535,7 +535,7 @@ const GoalWise = () => {
               type="text"
               value={linkAccountData.name}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, name: e.target.value })}
-              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-800'}`}
+              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm transition-all`}
               placeholder="e.g., Chase Checking"
             />
           </div>
@@ -545,11 +545,11 @@ const GoalWise = () => {
             <select
               value={linkAccountData.type}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, type: e.target.value })}
-              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-800'}`}
+              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm transition-all`}
             >
-              <option value="bank">Bank Account</option>
-              <option value="credit">Credit Card</option>
-              <option value="digital">Digital Wallet</option>
+              <option className={`${isDarkMode ? 'bg-gray-900 border-gray-600 text-white' : ''}`} value="bank">Bank Account</option>
+              <option className={`${isDarkMode ? 'bg-gray-900 border-gray-600 text-white' : ''}`} value="credit">Credit Card</option>
+              <option className={`${isDarkMode ? 'bg-gray-900 border-gray-600 text-white' : ''}`} value="digital">Digital Wallet</option>
             </select>
           </div>
 
@@ -561,7 +561,7 @@ const GoalWise = () => {
               step="0.01"
               value={linkAccountData.balance}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, balance: e.target.value })}
-              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-800'}`}
+              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm transition-all`}
               placeholder="3240.50"
             />
           </div>
@@ -570,7 +570,7 @@ const GoalWise = () => {
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowLinkAccountModal(false)}
-            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${isDarkMode ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
           >
             Cancel
           </button>
