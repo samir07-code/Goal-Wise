@@ -1228,7 +1228,7 @@ const GoalWise = () => {
         </div>
 
         <div>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Smart Suggestions</h2>
+          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} mb-4`}>Smart Suggestions</h2>
           <div className="space-y-3">
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-4">
               <div className="flex items-start gap-3">
@@ -1257,13 +1257,13 @@ const GoalWise = () => {
         </div>
 
         <div>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Contributions</h2>
-          <div className="bg-white rounded-2xl shadow-md divide-y">
+          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} mb-4`}>Recent Contributions</h2>
+          <div className={`rounded-2xl shadow-md divide-y ${isDarkMode ? 'bg-gray-800 border' : 'bg-white'}`}>
             {selectedGoalState.contributions.map((contribution, i) => (
               <div key={i} className="p-4 flex justify-between items-center">
                 <div>
-                  <p className="font-semibold text-gray-800">Manual Contribution</p>
-                  <p className="text-xs text-gray-500">{contribution.date}</p>
+                  <p className={`font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>Manual Contribution</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{contribution.date}</p>
                 </div>
                 <p className="font-bold text-green-600">+${contribution.amount}</p>
               </div>
