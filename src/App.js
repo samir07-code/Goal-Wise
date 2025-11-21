@@ -258,6 +258,14 @@ const GoalWise = () => {
     return icons[iconName] || Wallet;
   };
 
+  // Remove error highlight from valid input fields
+  const unhighlightValidInput = (e) => {
+    if (e.target.value) {
+      e.target.classList.remove('border-red-500', 'focus:ring-red-500');
+      e.target.removeEventListener('input', unhighlightValidInput);
+    }
+  };
+
   // Modal Components
   const AddGoalModal = ({  }) => {
     const [newGoal, setNewGoal] = useState({
@@ -284,6 +292,21 @@ const GoalWise = () => {
 
         setGoals(prev => [...prev, goal]);
         setShowAddGoalModal(false);
+        
+        if (activeScreen === 'goals') {
+          setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          }, 10);
+        }
+      } else {
+        const inputs = document.querySelectorAll('input[required]');
+        inputs.forEach(input => {
+          if (!input.value) {
+            input.classList.add('border-red-500', 'focus:ring-red-500');
+            
+            input.addEventListener('input', unhighlightValidInput);
+          }
+        });
       }
     };
 
@@ -299,8 +322,9 @@ const GoalWise = () => {
 
           <div className="space-y-4">
             <div>
-              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name</label>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Goal Name <span className="text-red-500">* <sup>(required)</sup></span> </label>
               <input
+                required
                 type="text"
                 value={newGoal.name}
                 onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
@@ -310,8 +334,9 @@ const GoalWise = () => {
             </div>
 
             <div>
-              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($)</label>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Target Amount ($) <span className="text-red-500">* <sup>(required)</sup></span> </label>
               <input
+                required
                 type="number"
                 value={newGoal.target}
                 onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
@@ -321,8 +346,9 @@ const GoalWise = () => {
             </div>
 
             <div>
-              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($)</label>
+              <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Monthly Savings ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
               <input
+                required
                 type="number"
                 value={newGoal.monthly}
                 onChange={(e) => setNewGoal({ ...newGoal, monthly: e.target.value })}
@@ -394,7 +420,8 @@ const GoalWise = () => {
       const [_, month, day, year] = (new Date().toString()).split(" ");
       const date = `${month} ${day}, ${year}`;
 
-      const amount = parseFloat(addFundsAmount);
+      let amount = parseFloat(addFundsAmount);
+      amount = Math.min(amount, selectedGoal.target - selectedGoal.current);
       setGoals(goals.map(goal =>
         goal.id === selectedGoal.id
           ? { ...goal, current: Math.min(goal.current + amount, goal.target), 
@@ -403,6 +430,12 @@ const GoalWise = () => {
       ));
       setAddFundsAmount('');
       setShowAddFundsModal(false);
+    } else {
+      const input = document.querySelector('input[type="number"]');
+      if (input) {
+        input.classList.add('border-red-500', 'focus:ring-red-500');
+        input.addEventListener('input', unhighlightValidInput);
+      }
     }
   };
 
@@ -426,8 +459,9 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               value={addFundsAmount}
               onChange={(e) => setAddFundsAmount(e.target.value)}
@@ -472,6 +506,14 @@ const GoalWise = () => {
       setAccounts([...accounts, account]);
       setLinkAccountData({ name: '', type: 'bank', balance: '' });
       setShowLinkAccountModal(false);
+    } else {
+      const inputs = document.querySelectorAll('input[required]');
+      inputs.forEach(input => {
+        if (!input.value) {
+          input.classList.add('border-red-500', 'focus:ring-red-500');
+          input.addEventListener('input', unhighlightValidInput);
+        }
+      });
     }
   };
     
@@ -487,8 +529,9 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Account Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Account Name <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="text"
               value={linkAccountData.name}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, name: e.target.value })}
@@ -511,8 +554,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current Balance ($)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Current Balance ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               step="0.01"
               value={linkAccountData.balance}
@@ -552,14 +596,17 @@ const GoalWise = () => {
     });
     
     const handleEditGoal = () => {
-    if (selectedGoal) {
-      setGoals(goals.map(goal =>
-        goal.id === selectedGoal.id
-          ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
-          : goal
-      ));
-      setShowEditGoalModal(false);
-    }
+      if (selectedGoal) {
+        newGoal.name = (newGoal.name) ? newGoal.name : selectedGoal.name;
+        newGoal.target = (newGoal.target) ? newGoal.target : selectedGoal.target;
+        newGoal.monthly = (newGoal.monthly) ? newGoal.monthly : selectedGoal.monthly;
+        setGoals(goals.map(goal =>
+          goal.id === selectedGoal.id
+            ? { ...goal, ...newGoal, target: parseFloat(newGoal.target), monthly: parseFloat(newGoal.monthly) }
+            : goal
+        ));
+        setShowEditGoalModal(false);
+      }
   };
 
     return (
@@ -580,7 +627,7 @@ const GoalWise = () => {
               value={newGoal.name}
               onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="e.g., Emergency Fund"
+              placeholder={selectedGoal.name}
             />
           </div>
 
@@ -591,7 +638,7 @@ const GoalWise = () => {
               value={newGoal.target}
               onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="10000"
+              placeholder={selectedGoal.target}
             />
           </div>
 
@@ -602,7 +649,7 @@ const GoalWise = () => {
               value={newGoal.monthly}
               onChange={(e) => setNewGoal({ ...newGoal, monthly: e.target.value })}
               className={`w-full p-3 ${isDarkMode ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} border rounded-xl backdrop-blur-sm focus:ring-2 focus:border-transparent transition-all`}
-              placeholder="500"
+              placeholder={selectedGoal.monthly}
             />
           </div>
 
@@ -724,6 +771,20 @@ const GoalWise = () => {
       setInvestments([...investments, investment]);
       setNewInvestment({ name: '', symbol: '', type: 'stock', amount: '', shares: '', currentPrice: '' });
       setShowAddInvestmentModal(false);
+
+      if (activeScreen == "investments") {
+        setTimeout(() => {
+          window.scrollTo({ top: document.body.scrollHeight - window.innerHeight - 150, behavior: 'smooth' });
+        }, 10);
+      }
+    } else {
+      const inputs = document.querySelectorAll('input[required]');
+      inputs.forEach(input => {
+        if (!input.value) {
+          input.classList.add('border-red-500', 'focus:ring-red-500');
+          input.addEventListener('input', unhighlightValidInput);
+        }
+      });
     }
   };
   
@@ -739,8 +800,9 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Company/Asset Name</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Company/Asset Name <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="text"
               value={newInvestment.name}
               onChange={(e) => setNewInvestment({ ...newInvestment, name: e.target.value })}
@@ -750,8 +812,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Symbol</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Symbol <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="text"
               value={newInvestment.symbol}
               onChange={(e) => setNewInvestment({ ...newInvestment, symbol: e.target.value.toUpperCase() })}
@@ -775,8 +838,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Shares/Amount</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Shares/Amount <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               step="0.000001"
               value={newInvestment.shares}
@@ -787,8 +851,9 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Total Investment ($)</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Total Investment ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
+              required
               type="number"
               step="0.01"
               value={newInvestment.amount}
