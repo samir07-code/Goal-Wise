@@ -710,11 +710,11 @@ const GoalWise = () => {
 
   const ScenariosModal = () => (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl p-6 w-full max-w-md">
+      <div className={`rounded-3xl p-6 w-full max-w-md ${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'}`}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">What-If Scenarios</h2>
-          <button onClick={() => setShowScenariosModal(false)} className="p-2 hover:bg-gray-100 rounded-full">
-            <X className="w-5 h-5" />
+          <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>What-If Scenarios</h2>
+          <button onClick={() => setShowScenariosModal(false)} className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+            <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
         </div>
 
