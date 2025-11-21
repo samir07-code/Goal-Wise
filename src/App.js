@@ -441,11 +441,11 @@ const GoalWise = () => {
 
     return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl p-6 w-full max-w-md">
+      <div className={`${isDarkMode ? 'bg-gray-900/95 backdrop-blur-xl border border-gray-700' : 'bg-white/95 backdrop-blur-xl border border-white/20'} rounded-3xl p-6 w-full max-w-md`}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Add Funds</h2>
-          <button onClick={() => setShowAddFundsModal(false)} className="p-2 hover:bg-gray-100 rounded-full">
-            <X className="w-5 h-5" />
+          <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Add Funds</h2>
+          <button onClick={() => setShowAddFundsModal(false)} className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
+            <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
           </button>
         </div>
 
@@ -453,19 +453,19 @@ const GoalWise = () => {
           <div className={`w-16 h-16 bg-gradient-to-br ${selectedGoal?.color} rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3`}>
             {selectedGoal?.icon}
           </div>
-          <h3 className="text-lg font-bold text-gray-800">{selectedGoal?.name}</h3>
+          <h3 className={`text-lg font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{selectedGoal?.name}</h3>
           <p className="text-sm text-gray-500">Current: ${selectedGoal?.current.toLocaleString()} / ${selectedGoal?.target.toLocaleString()}</p>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Add ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Amount to Add ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
               required
               type="number"
               value={addFundsAmount}
               onChange={(e) => setAddFundsAmount(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full p-3 border rounded-xl focus:ring-2 focus:border-transparent ${isDarkMode ? 'bg-gray-800/50 text-white border-gray-600 placeholder-gray-400 focus:ring-blue-400' : 'bg-white/50 border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-blue-500'} backdrop-blur-sm transition-all`}
               placeholder="500"
             />
           </div>
@@ -474,7 +474,7 @@ const GoalWise = () => {
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowAddFundsModal(false)}
-            className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all"
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${isDarkMode ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'} backdrop-blur-sm`}
           >
             Cancel
           </button>
