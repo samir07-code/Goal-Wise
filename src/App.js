@@ -1044,7 +1044,7 @@ const GoalWise = () => {
   const AccountsScreen = () => (
     <div className="space-y-6 pb-24">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">Accounts</h1>
+        <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Accounts</h1>
         <button onClick={() => setShowLinkAccountModal(true)} className="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold flex items-center gap-2 hover:bg-blue-700 transition-all">
           <Plus className="w-4 h-4" /> Link Account
         </button>
@@ -1054,22 +1054,22 @@ const GoalWise = () => {
         {accounts.map((account, i) => {
           const IconComponent = getIcon(account.icon);
           return (
-            <div key={i} className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all">
+            <div key={i} className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl p-4 shadow-md hover:shadow-lg transition-all`}>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <div className={`${account.color} w-12 h-12 rounded-xl flex items-center justify-center text-white`}>
                     <IconComponent className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800">{account.name}</h3>
-                    <p className="text-xs text-gray-500 capitalize">{account.type} Account</p>
+                    <h3 className={`font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{account.name}</h3>
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-500'} capitalize`}>{account.type} Account</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className={`font-bold text-lg ${account.balance < 0 ? 'text-red-600' : 'text-gray-800'}`}>
+                  <p className={`font-bold text-lg ${account.balance < 0 ? 'text-red-600' :  isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>
                     {account.balance < 0 ? '-' : ''}${Math.abs(account.balance).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </p>
-                  <p className="text-xs text-gray-500">Available</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>Available</p>
                 </div>
               </div>
             </div>
@@ -1078,10 +1078,10 @@ const GoalWise = () => {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">All Transactions</h2>
-        <div className="bg-white rounded-2xl shadow-md divide-y">
+        <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} mb-4`}>All Transactions</h2>
+        <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-md divide-y overflow-hidden`}>
           {transactions.map((tx, i) => (
-            <div key={i} className="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors cursor-pointer">
+            <div key={i} className={`p-4 flex justify-between items-center ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-300'} transition-colors cursor-pointer`}>
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100' :
                     tx.type === 'subscription' ? 'bg-purple-100' :
@@ -1095,15 +1095,15 @@ const GoalWise = () => {
                           <DollarSign className="w-5 h-5 text-gray-600" />}
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800">{tx.name}</p>
+                  <p className={`font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{tx.name}</p>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">{tx.category}</span>
-                    <span className="text-xs text-gray-400">•</span>
-                    <span className="text-xs text-gray-500">{tx.date}</span>
+                    <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>{tx.category}</span>
+                    <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`}>•</span>
+                    <span className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>{tx.date}</span>
                   </div>
                 </div>
               </div>
-              <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
+              <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' :  isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>
                 {tx.amount > 0 ? '+' : ''}{tx.amount < 0 ? '-' : ''}${Math.abs(tx.amount).toFixed(2)}
               </p>
             </div>
