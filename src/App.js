@@ -1116,7 +1116,7 @@ const GoalWise = () => {
   const GoalsScreen = () => (
     <div className="space-y-6 pb-24">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">Financial Goals</h1>
+        <h1 className={`text-2xl font-bold  ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Financial Goals</h1>
         <button onClick={() => setShowAddGoalModal(true)} className="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold flex items-center gap-2 hover:bg-blue-700 transition-all">
           <Plus className="w-4 h-4" /> New Goal
         </button>
@@ -1136,15 +1136,15 @@ const GoalWise = () => {
 
       <div className="space-y-4">
         {goals.map(goal => (
-          <div key={goal.id} onClick={() => { setSelectedGoal(goal); setActiveScreen('goalDetail'); }} className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-all cursor-pointer">
+          <div key={goal.id} onClick={() => { setSelectedGoal(goal); setActiveScreen('goalDetail'); }} className={`rounded-2xl p-5 shadow-md hover:shadow-lg transition-all cursor-pointer ${isDarkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-800'}`}>
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-3">
                 <div className={`w-14 h-14 bg-gradient-to-br ${goal.color} rounded-xl flex items-center justify-center text-3xl shadow-lg`}>
                   {goal.icon}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-800 text-lg">{goal.name}</h3>
-                  <p className="text-sm text-gray-500">${goal.current.toLocaleString()} of ${goal.target.toLocaleString()}</p>
+                  <h3 className={`font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} text-lg`}>{goal.name}</h3>
+                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>${goal.current.toLocaleString()} of ${goal.target.toLocaleString()}</p>
                 </div>
               </div>
               <span className="text-sm bg-green-100 text-green-700 px-3 py-1.5 rounded-full font-bold">
@@ -1157,17 +1157,17 @@ const GoalWise = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-3 mt-4">
-              <div className="bg-gray-50 rounded-lg p-2">
-                <p className="text-xs text-gray-500">Monthly</p>
-                <p className="font-bold text-gray-800">${goal.monthly}</p>
+              <div className={` ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-2`}>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Monthly</p>
+                <p className={`font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>${goal.monthly}</p>
               </div>
-              <div className="bg-gray-50 rounded-lg p-2">
-                <p className="text-xs text-gray-500">Remaining</p>
-                <p className="font-bold text-gray-800">${(goal.target - goal.current).toLocaleString()}</p>
+              <div className={` ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-2`}>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Remaining</p>
+                <p className={`font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>${(goal.target - goal.current).toLocaleString()}</p>
               </div>
-              <div className="bg-gray-50 rounded-lg p-2">
-                <p className="text-xs text-gray-500">ETA</p>
-                <p className="font-bold text-gray-800">{Math.ceil((goal.target - goal.current) / goal.monthly)}mo</p>
+              <div className={` ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-2`}>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>ETA</p>
+                <p className={`font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{Math.ceil((goal.target - goal.current) / goal.monthly)}mo</p>
               </div>
             </div>
           </div>
