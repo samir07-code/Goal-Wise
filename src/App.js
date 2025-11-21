@@ -993,7 +993,7 @@ const GoalWise = () => {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Quick Actions</h2>
+        <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} mb-4`}>Quick Actions</h2>
         <div className="grid grid-cols-2 gap-3">
           <button onClick={() => setShowAddGoalModal(true)} className="bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all">
             <Plus className="w-6 h-6 mb-2" />
@@ -1008,12 +1008,12 @@ const GoalWise = () => {
 
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-800">Recent Activity</h2>
+          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Recent Activity</h2>
           <button onClick={() => setActiveScreen('accounts')} className="text-blue-600 text-sm font-semibold">View All</button>
         </div>
-        <div className="bg-white rounded-2xl shadow-md divide-y">
+        <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-md divide-y overflow-hidden`}>
           {transactions.slice(0, 3).map((tx, i) => (
-            <div key={i} className="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
+            <div key={i} className={`p-4 flex justify-between items-center ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-300'} transition-colors`}>
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100' :
                     tx.type === 'subscription' ? 'bg-purple-100' :
@@ -1027,11 +1027,11 @@ const GoalWise = () => {
                     }`} />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800">{tx.name}</p>
-                  <p className="text-xs text-gray-500">{tx.category} • {tx.date}</p>
+                  <p className={`font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{tx.name}</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>{tx.category} • {tx.date}</p>
                 </div>
               </div>
-              <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
+              <p className={`font-bold ${tx.amount > 0 ? 'text-green-600' : isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>
                 {tx.amount > 0 ? '+' : ''}{tx.amount < 0 ? '-' : ''}${Math.abs(tx.amount).toFixed(2)}
               </p>
             </div>
