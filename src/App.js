@@ -1987,7 +1987,7 @@ const GoalWise = () => {
 
   return (
     <div className={`min-h-screen transition-all duration-300 ${isDarkMode ? 'bg-gradient-to-br from-gray-900 to-gray-800' : 'bg-gradient-to-br from-gray-50 to-blue-50'}`}>
-      <div className={`max-w-md mx-auto min-h-screen relative transition-all duration-300 ${isDarkMode ? 'bg-gray-900/50 backdrop-blur-sm' : 'bg-gray-50'}`}>
+      <div className={`max-w-md mx-auto min-h-screen relative transition-all duration-300 ${isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'}`}>
         <div className="p-6">
           {renderScreen()}
         </div>
