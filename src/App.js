@@ -1376,7 +1376,7 @@ const GoalWise = () => {
 
   const SubscriptionsScreen = () => (
     <div className="space-y-6 pb-24">
-      <h1 className="text-2xl font-bold text-gray-800">Subscriptions</h1>
+      <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Subscriptions</h1>
 
       <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl p-5 text-white shadow-xl">
         <h3 className="font-semibold mb-2">Total Monthly Spend</h3>
@@ -1397,22 +1397,22 @@ const GoalWise = () => {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Active Subscriptions</h2>
+        <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} mb-4`}>Active Subscriptions</h2>
         <div className="space-y-3">
           {subscriptions.map((sub, i) => (
-            <div key={i} className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all">
+            <div key={i} className={`rounded-2xl p-4 shadow-md hover:shadow-lg transition-all ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h3 className="font-bold text-gray-800">{sub.name}</h3>
-                  <p className="text-xs text-gray-500">{sub.category}</p>
+                  <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{sub.name}</h3>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{sub.category}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-lg text-gray-800">${sub.amount}</p>
-                  <p className="text-xs text-gray-500">per month</p>
+                  <p className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>${sub.amount}</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>per month</p>
                 </div>
               </div>
-              <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
-                <p className="text-xs text-gray-500">Next billing: {sub.nextBill}</p>
+              <div className={`flex justify-between items-center mt-3 pt-3 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}`}>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Next billing: {sub.nextBill}</p>
                 <button onClick={() => handleCancelSubscription(sub.id)} className="text-xs text-red-600 font-semibold hover:text-red-700">Cancel</button>
               </div>
             </div>
