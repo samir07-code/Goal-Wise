@@ -519,9 +519,9 @@ const GoalWise = () => {
     
     return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl p-6 w-full max-w-md">
+      <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-3xl p-6 w-full max-w-md`}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Link Account</h2>
+          <h2 className={`text-2xl font-bold  ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Link Account</h2>
           <button onClick={() => setShowLinkAccountModal(false)} className="p-2 hover:bg-gray-100 rounded-full">
             <X className="w-5 h-5" />
           </button>
@@ -529,23 +529,23 @@ const GoalWise = () => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Account Name <span className="text-red-500">* <sup>(required)</sup></span></label>
+            <label className={`block text-sm font-medium  ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Account Name <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
               required
               type="text"
               value={linkAccountData.name}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, name: e.target.value })}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-800'}`}
               placeholder="e.g., Chase Checking"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Account Type</label>
             <select
               value={linkAccountData.type}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, type: e.target.value })}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-800'}`}
             >
               <option value="bank">Bank Account</option>
               <option value="credit">Credit Card</option>
@@ -554,14 +554,14 @@ const GoalWise = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current Balance ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Current Balance ($) <span className="text-red-500">* <sup>(required)</sup></span></label>
             <input
               required
               type="number"
               step="0.01"
               value={linkAccountData.balance}
               onChange={(e) => setLinkAccountData({ ...linkAccountData, balance: e.target.value })}
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-800'}`}
               placeholder="3240.50"
             />
           </div>
@@ -570,7 +570,7 @@ const GoalWise = () => {
         <div className="flex gap-3 mt-6">
           <button
             onClick={() => setShowLinkAccountModal(false)}
-            className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all"
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
           >
             Cancel
           </button>
