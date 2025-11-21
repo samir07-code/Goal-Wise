@@ -1645,12 +1645,12 @@ const GoalWise = () => {
               <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>6-Month Financial Trends</p>
             </div>
 
-            <div className="relative h-64 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
-              <svg className="w-full h-full" viewBox="0 0 400 200">
+            <div className={`relative h-64 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4`}>
+              <svg className="w-full h-full" viewBox="0 0 400.5 200.5">
                 {/* Grid lines */}
                 <defs>
                   <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E5E7EB" strokeWidth="0.5" />
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke={ `${isDarkMode ? '#E5E7EB' : '#374151'}`} strokeWidth="0.5" />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#grid)" />
@@ -1700,18 +1700,18 @@ const GoalWise = () => {
               </svg>
 
               {/* Legend */}
-              <div className="absolute top-4 right-4 space-y-2">
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-full grid grid-cols-3 justify-items-center">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-xs font-medium text-gray-700">Spending</span>
+                  <span className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Spending</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-xs font-medium text-gray-700">Income</span>
+                  <span className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Income</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="text-xs font-medium text-gray-700">Savings</span>
+                  <span className={`text-xs font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Savings</span>
                 </div>
               </div>
             </div>
@@ -1720,17 +1720,17 @@ const GoalWise = () => {
               <div className="text-center">
                 <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Spending Trend</p>
                 <p className="font-bold text-red-500">↓ Decreasing</p>
-                <p className="text-xs text-gray-500">-8.3% avg</p>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>-8.3% avg</p>
               </div>
               <div className="text-center">
                 <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Income Trend</p>
                 <p className="font-bold text-green-500">↑ Increasing</p>
-                <p className="text-xs text-gray-500">+1.3% avg</p>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>+1.3% avg</p>
               </div>
               <div className="text-center">
                 <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Savings Trend</p>
                 <p className="font-bold text-blue-500">↑ Improving</p>
-                <p className="text-xs text-gray-500">+11.1% avg</p>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>+11.1% avg</p>
               </div>
             </div>
           </div>
