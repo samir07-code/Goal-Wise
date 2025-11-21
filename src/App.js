@@ -1285,7 +1285,7 @@ const GoalWise = () => {
 
   const BillsScreen = () => (
     <div className="space-y-6 pb-24">
-      <h1 className="text-2xl font-bold text-gray-800">Bills & Credit</h1>
+      <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Bills & Credit</h1>
 
       <div className="bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 rounded-3xl p-6 text-white shadow-xl">
         <div className="flex justify-between items-start mb-4">
@@ -1307,17 +1307,17 @@ const GoalWise = () => {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Upcoming Bills</h2>
+        <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'} mb-4`}>Upcoming Bills</h2>
         <div className="space-y-3">
           {upcomingBills.map((bill, i) => (
-            <div key={i} className={`bg-white rounded-2xl p-4 shadow-md border-2 ${bill.status === 'paid' ? 'border-green-200 bg-green-50' : 'border-orange-200'}`}>
+            <div key={i} className={`rounded-2xl p-4 shadow-md border-2 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white'} ${bill.status === 'paid' ? `${isDarkMode ? 'border-green-700 bg-green-900' : 'border-green-200 bg-green-50'}` : `${isDarkMode ? 'border-orange-700' : 'border-orange-200'}`}`}>
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="font-bold text-gray-800">{bill.name}</h3>
-                  <p className="text-sm text-gray-500">Due {bill.dueDate}</p>
+                  <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{bill.name}</h3>
+                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Due {bill.dueDate}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-lg text-gray-800">${bill.amount.toFixed(2)}</p>
+                  <p className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>${bill.amount.toFixed(2)}</p>
                   {bill.status === 'paid' ? (
                     <span className="text-xs bg-green-600 text-white px-2 py-1 rounded-full font-medium inline-flex items-center gap-1">
                       <CheckCircle className="w-3 h-3" /> Paid
@@ -1353,19 +1353,19 @@ const GoalWise = () => {
 
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-800">Active Subscriptions</h2>
+          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Active Subscriptions</h2>
           <button onClick={() => setActiveScreen('subscriptions')} className="text-blue-600 text-sm font-semibold">View All</button>
         </div>
-        <div className="bg-white rounded-2xl shadow-md p-4">
+        <div className={`rounded-2xl shadow-md p-4 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'}`}>
           <div className="flex justify-between items-center mb-3">
-            <p className="text-gray-600">Total Monthly Cost</p>
-            <p className="text-2xl font-bold text-gray-800">${subscriptions.reduce((sum, sub) => sum + sub.amount, 0).toFixed(2)}</p>
+            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Total Monthly Cost</p>
+            <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>${subscriptions.reduce((sum, sub) => sum + sub.amount, 0).toFixed(2)}</p>
           </div>
           <div className="space-y-2">
             {subscriptions.slice(0, 3).map((sub, i) => (
               <div key={i} className="flex justify-between items-center text-sm">
-                <span className="text-gray-600">{sub.name}</span>
-                <span className="font-semibold text-gray-800">${sub.amount}</span>
+                <span className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{sub.name}</span>
+                <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>${sub.amount}</span>
               </div>
             ))}
           </div>
